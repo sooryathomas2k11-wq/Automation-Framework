@@ -1,0 +1,8 @@
+pages/Page.class
+tests/LoginTest.class
+tests/WeatherMapPOJOTest.class
+POJO/WeatherStation.class
+verifications/WeatherMapVerification.class
+pages/HomePage.class
+tests/WeatherMapTest.class
+pages/LoginPage.class

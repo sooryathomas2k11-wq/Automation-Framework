@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="" lang="">
+<head>
+  <title>Upgrade Automation - Log Output</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <meta name="description" content="TestNG unit test results." />
+  <link href="reportng.css" rel="stylesheet" type="text/css" />
+  </head>
+<body>
+  <h1>Log Output</h1>
+  <p>
+    Combined output from all calls to the log methods of the <a href="http://testng.org/javadocs/org/testng/Reporter.html">TestNG Reporter</a>.    
+  </p>
+
+  <div id="log">
+                  Forecast API request  :http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=
+                        {"cod":401, "message": "Invalid API key. Please see https://openweathermap.org/faq#error401 for more info."}
+                        Registration request:http://api.openweathermap.org/data/3.0/stations?APPID=5ab20332fe37c18e7b1b4f786e5c572b
+                        Request Body: {"altitude":444.0,"latitude":33.33,"name":"Interview Station 12367","external_id":"DEMO_TEST001","longitude":-111.43}
+                        Response status code:201
+                        response:{"ID":"699642dacbd4230001cc3779","updated_at":"2026-02-18T22:53:14.348415252Z","created_at":"2026-02-18T22:53:14.348415079Z","user_id":"6023fa28c8e1ae0007f87b37","external_id":"DEMO_TEST001","name":"Interview Station 12367","latitude":33.33,"longitude":-111.43,"altitude":444,"rank":10,"source_type":5}
+                        Registration request:http://api.openweathermap.org/data/3.0/stations?APPID=5ab20332fe37c18e7b1b4f786e5c572b
+                        Request Body: {"altitude":444.0,"latitude":33.44,"name":"Interview Station 12357","external_id":"DEMO_TEST002","longitude":12.44}
+                        Response status code:201
+                        response:{"ID":"699642dacbd4230001cc377a","updated_at":"2026-02-18T22:53:14.687676478Z","created_at":"2026-02-18T22:53:14.687676304Z","user_id":"6023fa28c8e1ae0007f87b37","external_id":"DEMO_TEST002","name":"Interview Station 12357","latitude":33.44,"longitude":12.44,"altitude":444,"rank":10,"source_type":5}
+                        Registration request:http://api.openweathermap.org/data/3.0/stations?APPID=5ab20332fe37c18e7b1b4f786e5c572b
+                        Response status code:200
+                        Response:[{"id":"699642dacbd4230001cc3779","created_at":"2026-02-18T22:53:14.348Z","updated_at":"2026-02-18T22:53:14.348Z","external_id":"DEMO_TEST001","name":"Interview Station 12367","longitude":-111.43,"latitude":33.33,"altitude":444,"rank":10},{"id":"699642dacbd4230001cc377a","created_at":"2026-02-18T22:53:14.687Z","updated_at":"2026-02-18T22:53:14.687Z","external_id":"DEMO_TEST002","name":"Interview Station 12357","longitude":12.44,"latitude":33.44,"altitude":444,"rank":10}]
+                        Registered IDs:[699642dacbd4230001cc3779, 699642dacbd4230001cc377a]
+                        Delete station details request:http://api.openweathermap.org/data/3.0/stations/699642dacbd4230001cc3779?APPID=5ab20332fe37c18e7b1b4f786e5c572b
+                        Deleting the station details for 699642dacbd4230001cc3779
+                        Response status code:204
+                        Response:
+                        Response status code after cleaning up the  station:699642dacbd4230001cc3779404
+                        Response:{"code":404001,"message":"Station not found"}
+                        Error message :Station not found
+                        Delete station details request:http://api.openweathermap.org/data/3.0/stations/699642dacbd4230001cc377a?APPID=5ab20332fe37c18e7b1b4f786e5c572b
+                        Deleting the station details for 699642dacbd4230001cc377a
+                        Response status code:204
+                        Response:
+                        Response status code after cleaning up the  station:699642dacbd4230001cc377a404
+                        Response:{"code":404001,"message":"Station not found"}
+                        Error message :Station not found
+            </div>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite data-provider-thread-count="1" name="Default Test Name" parallel="classes" thread-count="1" verbose="1">
+    <test name="Test">
+        <parameter name="browser" value="CHROME" />
+        <classes>
+            <class name="tests.LoginTest" />
+            <class name="tests.WeatherMapTest" />
+            <!-- Add more classes if needed -->
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Test"
+           tests="5"
+           failures="0"
+           errors="0"
+           skipped="0"
+           time="4.489">
+  <properties />
+  
+  
+            <testcase name="foreCastAPIValidationTest" time="0.796" classname="tests.WeatherMapTest" />
+                <testcase name="deleteStation" time="2.139" classname="tests.WeatherMapTest" />
+                <testcase name="registerWeatherStationTest" time="0.554" classname="tests.WeatherMapTest" />
+                <testcase name="registerWeatherStationTest" time="0.334" classname="tests.WeatherMapTest" />
+                <testcase name="getRegisterWatherStationTest" time="0.666" classname="tests.WeatherMapTest" />
+      
+</testsuite>

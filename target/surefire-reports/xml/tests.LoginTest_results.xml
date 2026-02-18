@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Test"
+           tests="4"
+           failures="1"
+           errors="0"
+           skipped="3"
+           time="9.328">
+  <properties />
+            <testcase name="getWebDriver" time="9.328" classname="tests.LoginTest">
+                <failure type="org.openqa.selenium.remote.http.ConnectionFailedException"
+                  message="Unable to establish websocket connection to http://localhost:63561/devtools/browser/273e2179-6bdb-46f1-9de2-cc271093d9db
+Build info: version: &apos;4.4.0&apos;, revision: &apos;e5c75ed026a&apos;
+System info: host: &apos;MacBookAir.lan&apos;, ip: &apos;2001:569:522f:9e00:5409:b27c:17a3:9f09%en0&apos;, os.name: &apos;Mac OS X&apos;, os.arch: &apos;aarch64&apos;, os.version: &apos;15.1.1&apos;, java.version: &apos;22.0.2&apos;
+Driver info: driver.version: ChromeDriver"
+              >
+<![CDATA[org.openqa.selenium.remote.http.ConnectionFailedException: Unable to establish websocket connection to http://localhost:63561/devtools/browser/273e2179-6bdb-46f1-9de2-cc271093d9db
+Build info: version: '4.4.0', revision: 'e5c75ed026a'
+System info: host: 'MacBookAir.lan', ip: '2001:569:522f:9e00:5409:b27c:17a3:9f09%en0', os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.1.1', java.version: '22.0.2'
+Driver info: driver.version: ChromeDriver
+  org.openqa.selenium.remote.http.netty.NettyWebSocket.<init>(NettyWebSocket.java:102)
+  org.openqa.selenium.remote.http.netty.NettyWebSocket.lambda$create$3(NettyWebSocket.java:128)
+  org.openqa.selenium.remote.http.netty.NettyClient.openSocket(NettyClient.java:106)
+  org.openqa.selenium.devtools.Connection.<init>(Connection.java:77)
+  org.openqa.selenium.chromium.ChromiumDriver.lambda$new$2(ChromiumDriver.java:116)
+  java.base/java.util.Optional.map(Optional.java:260)
+  org.openqa.selenium.chromium.ChromiumDriver.<init>(ChromiumDriver.java:114)
+  org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:81)
+  org.openqa.selenium.chrome.ChromeDriver.<init>(ChromeDriver.java:49)
+  org.example.base.WebDriverBase.getWebDriver(WebDriverBase.java:58)
+  java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+  java.base/java.lang.reflect.Method.invoke(Method.java:580)
+  org.testng.internal.invokers.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:139)
+  org.testng.internal.invokers.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:69)
+  org.testng.internal.invokers.ConfigInvoker.invokeConfigurationMethod(ConfigInvoker.java:361)
+  org.testng.internal.invokers.ConfigInvoker.invokeConfigurations(ConfigInvoker.java:296)
+  org.testng.internal.invokers.TestInvoker.runConfigMethods(TestInvoker.java:823)
+  org.testng.internal.invokers.TestInvoker.invokeMethod(TestInvoker.java:590)
+  org.testng.internal.invokers.TestInvoker.invokeTestMethod(TestInvoker.java:221)
+  org.testng.internal.invokers.MethodRunner.runInSequence(MethodRunner.java:50)
+  org.testng.internal.invokers.TestInvoker$MethodInvocationAgent.invoke(TestInvoker.java:969)
+  org.testng.internal.invokers.TestInvoker.invokeTestMethods(TestInvoker.java:194)
+  org.testng.internal.invokers.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:148)
+  org.testng.internal.invokers.TestMethodWorker.run(TestMethodWorker.java:128)
+  java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+  java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+  java.base/java.lang.Thread.run(Thread.java:1570)
+]]>
+      </failure>
+
+          </testcase>
+  
+            <testcase name="cleanUp" time="0.0" classname="tests.LoginTest">
+          <skipped />
+    </testcase>
+            <testcase name="initializeTest" time="0.0" classname="tests.LoginTest">
+          <skipped />
+    </testcase>
+            <testcase name="testLogin" time="0.0" classname="tests.LoginTest">
+          <skipped />
+    </testcase>
+  
+  
+</testsuite>
