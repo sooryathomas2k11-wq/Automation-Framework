@@ -1,23 +1,26 @@
 package org.example.base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-
 import org.example.common.BrowserTypes;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 public abstract class WebDriverBase {
    private WebDriver webDriver;
    private BrowserTypes browserType;
 
-   private static HashMap<Long, WebDriver> map = new HashMap<Long, WebDriver>();
+   private static HashMap<Long, WebDriver> driverMap = new HashMap<Long, WebDriver>();
    private static HashMap<Long, BrowserTypes> browserMap = new HashMap<>();
 
    /**
@@ -26,7 +29,7 @@ public abstract class WebDriverBase {
     * @return the WebDriver instance specific to the currently running thread.
     */
    public static WebDriver getDriverInstance() {
-      return map.get(Thread.currentThread().getId());
+      return driverMap.get(Thread.currentThread().getId());
    }
 
    /**
@@ -47,22 +50,44 @@ public abstract class WebDriverBase {
     * @return The WebDriver with the appropriate browser is returned.
     */
    @BeforeMethod
-   @Parameters({"browser"})
-   protected WebDriver getWebDriver(BrowserTypes browser) {
+   @Parameters({"browser","hubUrl"})
+   protected WebDriver getWebDriver(BrowserTypes browser, String hubUrl) {
       System.out.println("Running tests on thread: " + Thread.currentThread().getId());
-
+      boolean isRemote = hubUrl != null && !hubUrl.isEmpty();
       switch (browser) {
          case CHROME:
             browserType=BrowserTypes.CHROME;
-            WebDriverManager.chromedriver().setup();
-            webDriver=new ChromeDriver();
-            Reporter.log("Running test in browser \'CHROME\'", true);
+            ChromeOptions chromeOptions = new ChromeOptions();
+            if(isRemote){
+             try{
+                webDriver=new RemoteWebDriver(new URL(hubUrl),chromeOptions);
+                Reporter.log("Running test on Selenium Grid in Chrome",true);
+             }catch (MalformedURLException e){
+                e.printStackTrace();
+                throw new RuntimeException("Invalid Grid Url"+hubUrl);
+             }
+            }else {
+               WebDriverManager.chromedriver().setup();
+               webDriver = new ChromeDriver(chromeOptions);
+               Reporter.log("Running test in browser \'CHROME\'", true);
+            }
             break;
          case FIREFOX:
             browserType=BrowserTypes.FIREFOX;
-            WebDriverManager.firefoxdriver().setup();
-            webDriver=new FirefoxDriver();
-            Reporter.log("Running test in browser \'FIREFOX\'", true);
+            FirefoxOptions firefoxOptions=new FirefoxOptions();
+            if(isRemote){
+               try{
+                  webDriver=new RemoteWebDriver(new URL(hubUrl),firefoxOptions);
+               }catch (MalformedURLException e){
+                  e.printStackTrace();
+                  throw new RuntimeException("Invalid Grid Url"+hubUrl);
+               }
+            }else {
+               WebDriverManager.firefoxdriver().setup();
+               webDriver = new FirefoxDriver(firefoxOptions);
+               Reporter.log("Running test in browser \'FIREFOX\'", true);
+               Reporter.log("Running test in local Firefox", true);
+            }
             break;
             // add another browser as needed
 
@@ -70,12 +95,23 @@ public abstract class WebDriverBase {
       }
       webDriver.manage().deleteAllCookies();
       webDriver.manage().window().maximize();
-      map.put(Thread.currentThread().getId(), webDriver);
+      driverMap.put(Thread.currentThread().getId(), webDriver);
      browserMap.put(Thread.currentThread().getId(), browserType);
       return webDriver;
    }
 
-
+   /**
+    * Helper method to launch RemoteWebDriver for Selenium Grid
+    */
+   private WebDriver launchGridDriver(WebDriver driver, URL hubUrl) {
+      try {
+         return new RemoteWebDriver(hubUrl, ((RemoteWebDriver) driver).getCapabilities());
+      } catch (Exception e) {
+         Reporter.log("Error launching RemoteWebDriver on Grid", true);
+         e.printStackTrace();
+         return null;
+      }
+   }
 
    protected void tearDown(){
       if(webDriver!=null){

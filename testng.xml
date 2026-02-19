@@ -2,6 +2,7 @@
 <suite data-provider-thread-count="1" name="Default Test Name" parallel="classes" thread-count="1" verbose="1">
     <test name="Test">
         <parameter name="browser" value="CHROME" />
+        <parameter name="hubUrl" value="http://localhost:4444/wd/hub"/>
         <classes>
             <class name="tests.LoginTest" />
             <class name="tests.WeatherMapTest" />
