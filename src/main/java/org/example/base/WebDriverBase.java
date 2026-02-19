@@ -2,6 +2,7 @@ package org.example.base;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.example.common.BrowserTypes;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -59,13 +60,8 @@ public abstract class WebDriverBase {
             browserType=BrowserTypes.CHROME;
             ChromeOptions chromeOptions = new ChromeOptions();
             if(isRemote){
-             try{
-                webDriver=new RemoteWebDriver(new URL(hubUrl),chromeOptions);
-                Reporter.log("Running test on Selenium Grid in Chrome",true);
-             }catch (MalformedURLException e){
-                e.printStackTrace();
-                throw new RuntimeException("Invalid Grid Url"+hubUrl);
-             }
+               webDriver = launchGridDriver(chromeOptions, hubUrl);
+               Reporter.log("Running test on Selenium Grid in Chrome",true);
             }else {
                WebDriverManager.chromedriver().setup();
                webDriver = new ChromeDriver(chromeOptions);
@@ -76,12 +72,8 @@ public abstract class WebDriverBase {
             browserType=BrowserTypes.FIREFOX;
             FirefoxOptions firefoxOptions=new FirefoxOptions();
             if(isRemote){
-               try{
-                  webDriver=new RemoteWebDriver(new URL(hubUrl),firefoxOptions);
-               }catch (MalformedURLException e){
-                  e.printStackTrace();
-                  throw new RuntimeException("Invalid Grid Url"+hubUrl);
-               }
+               webDriver = launchGridDriver(firefoxOptions, hubUrl);
+               Reporter.log("Running test on Selenium Grid in Firefox", true);
             }else {
                WebDriverManager.firefoxdriver().setup();
                webDriver = new FirefoxDriver(firefoxOptions);
@@ -101,11 +93,19 @@ public abstract class WebDriverBase {
    }
 
    /**
-    * Helper method to launch RemoteWebDriver for Selenium Grid
+    * Launches a RemoteWebDriver on Selenium Grid
+    *
+    * @param capabilities ChromeOptions or FirefoxOptions
+    * @param hubUrl       Selenium Grid Hub URL
+    * @return RemoteWebDriver instance
     */
-   private WebDriver launchGridDriver(WebDriver driver, URL hubUrl) {
+   private WebDriver launchGridDriver(Capabilities capabilities, String hubUrl) {
       try {
-         return new RemoteWebDriver(hubUrl, ((RemoteWebDriver) driver).getCapabilities());
+         return new RemoteWebDriver(new URL(hubUrl), capabilities);
+      } catch (MalformedURLException e) {
+         Reporter.log("Invalid Grid URL: " + hubUrl, true);
+         e.printStackTrace();
+         throw new RuntimeException("Invalid Selenium Grid Hub URL", e);
       } catch (Exception e) {
          Reporter.log("Error launching RemoteWebDriver on Grid", true);
          e.printStackTrace();
