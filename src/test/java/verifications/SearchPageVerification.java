@@ -68,11 +68,11 @@ public class SearchPageVerification extends VerificationBase {
         jsClick(searchPage.getManufactureYearRangeHeader());
 
         wait.until(ExpectedConditions.elementToBeClickable(searchPage.getManufactureYearRangeMin()));
-        js.executeScript("arguments[0].select();", searchPage.getManufactureYearRangeMin());
+        jsSelectText(searchPage.getManufactureYearRangeMin());
         searchPage.getManufactureYearRangeMin().sendKeys(startYear);
 
         wait.until(ExpectedConditions.elementToBeClickable(searchPage.getManufactureYearRangeMax()));
-        js.executeScript("arguments[0].select();", searchPage.getManufactureYearRangeMax());
+        jsSelectText( searchPage.getManufactureYearRangeMax());
         int currentYear = Year.now().getValue();
         searchPage.getManufactureYearRangeMax().sendKeys(String.valueOf(currentYear));
         searchPage.getManufactureYearRangeMax().sendKeys(Keys.ENTER);

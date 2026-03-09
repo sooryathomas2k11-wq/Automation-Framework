@@ -1,23 +1,18 @@
 package org.example.base;
-
-import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 public abstract class TestBase extends WebDriverBase {
-   @BeforeMethod
-    public void initializeTest(){
-       String baseUrl = System.getProperty("baseUrl", "https://www.rbauction.com");
-       getDriverInstance().get(baseUrl);
 
-   }
+    @BeforeMethod(alwaysRun = true)
+    public void initializeTest() {
+        // Fetch URL from system properties or use default
+        String baseUrl = System.getProperty("baseUrl", "https://www.rbauction.com");
 
-   @AfterMethod
-   public void cleanUp() {
-       try {
-           tearDown();
-       } catch (Exception e) {
-           Reporter.log("Error during teardown: " + e.getMessage(),true);
-       }
-   }
+        // getDriverInstance() safely retrieves the driver for the current thread
+        if (getDriverInstance() != null) {
+            getDriverInstance().get(baseUrl);
+        } else {
+            throw new RuntimeException("WebDriver was not initialized for this thread!");
+        }
+    }
 }

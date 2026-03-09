@@ -37,6 +37,22 @@ public abstract class PageBase extends WebDriverBase {
         wait.until(ExpectedConditions.visibilityOf(element));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
+
+    /**
+     * Selects all text in an input field using JavaScript.
+     *
+     */
+    protected void jsSelectText(WebElement element) {
+        try {
+
+            JavascriptExecutor js = (JavascriptExecutor) getDriverInstance();
+
+            js.executeScript("arguments[0].select();", element);
+
+        } catch (Exception e) {
+            throw new RuntimeException("JS Select failed for element: " + element.toString(), e);
+        }
+    }
     public boolean waitForElementToLoad(WebElement element) {
         try {
             WebDriverWait wait = new WebDriverWait(getDriverInstance(),Duration.ofSeconds(Constants.PAGE_LOAD_TIME));

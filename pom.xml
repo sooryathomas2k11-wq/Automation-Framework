@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>RBAuctionAutomation</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-1</version>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
@@ -52,6 +52,11 @@
             <artifactId>guice</artifactId>
             <version>5.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.1</version>
+        </dependency>
 
     </dependencies>
 
@@ -79,6 +84,11 @@
                     <systemPropertyVariables>
                         <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
                         <org.uncommons.reportng.title>RB Automation</org.uncommons.reportng.title>
+                        <!--suppress UnresolvedMavenProperty -->
+                        <baseUrl>${baseUrl}</baseUrl>
+                        <threadCount>1</threadCount>
+                        <dataProviderThreadCount>1</dataProviderThreadCount>
+                        <parallel>methods</parallel>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

@@ -6,116 +6,93 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
+
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 
 public abstract class WebDriverBase {
-   private WebDriver webDriver;
-   private BrowserTypes browserType;
 
-   private static HashMap<Long, WebDriver> driverMap = new HashMap<Long, WebDriver>();
-   private static HashMap<Long, BrowserTypes> browserMap = new HashMap<>();
+   // ThreadLocal containers to isolate driver and browser per thread
+   private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+   private static ThreadLocal<BrowserTypes> browserType = new ThreadLocal<>();
 
    /**
-    * Interacts with the driver map to return the webDriver specific to the current thread.
-    *
-    * @return the WebDriver instance specific to the currently running thread.
+    * Returns the WebDriver instance for the current thread
     */
    public static WebDriver getDriverInstance() {
-      return driverMap.get(Thread.currentThread().getId());
+      return driver.get();
    }
 
    /**
-    * Interacts with the browser map to return the browser type specific to the current thread.
-    *
-    * @return the browser enum specific to the currently running thread.
+    * Returns the browser type for the current thread
     */
    public static BrowserTypes getBrowserType() {
-      return browserMap.get(Thread.currentThread().getId());
+      return browserType.get();
    }
 
-
-
    /**
-    * Builds profiles for the specific browser that is sent in. Builds the corresponding profile and launches
-    * that browser from the WebDriverBase WebDriver.
-    *
-    * @return The WebDriver with the appropriate browser is returned.
+    * Initializes WebDriver before each test method
     */
-   @BeforeMethod
-   @Parameters({"browser","hubUrl"})
-   protected WebDriver getWebDriver(BrowserTypes browser, String hubUrl) {
-      Reporter.log("Running tests on thread: " + Thread.currentThread().getId(),true);
+   @BeforeMethod(alwaysRun = true)
+   @Parameters({"browser", "hubUrl"})
+   protected void setUp(BrowserTypes browser, String hubUrl) {
+
+      Reporter.log("Starting test on Thread ID: " + Thread.currentThread().getId(), true);
+
+      WebDriver localDriver;
       boolean isRemote = hubUrl != null && !hubUrl.isEmpty();
+
       switch (browser) {
          case CHROME:
-            browserType=BrowserTypes.CHROME;
             ChromeOptions chromeOptions = new ChromeOptions();
-            if(isRemote){
-               webDriver = launchGridDriver(chromeOptions, hubUrl);
-               Reporter.log("Running test on Selenium Grid in Chrome",true);
-            }else {
+            if (isRemote) {
+               localDriver = launchGridDriver(chromeOptions, hubUrl);
+               Reporter.log("Running on Selenium Grid: " + hubUrl, true);
+            } else {
                WebDriverManager.chromedriver().setup();
-               webDriver = new ChromeDriver(chromeOptions);
-               Reporter.log("Running test in browser \'CHROME\'",true);
+               localDriver = new ChromeDriver(chromeOptions);
+               Reporter.log("Running locally in CHROME", true);
             }
             break;
-         case FIREFOX:
-            browserType=BrowserTypes.FIREFOX;
-            FirefoxOptions firefoxOptions=new FirefoxOptions();
-            if(isRemote){
-               webDriver = launchGridDriver(firefoxOptions, hubUrl);
-               Reporter.log("Running test on Selenium Grid in Firefox",true);
-            }else {
-               WebDriverManager.firefoxdriver().setup();
-               webDriver = new FirefoxDriver(firefoxOptions);
-               Reporter.log("Running test in browser \'FIREFOX\'",true);
-               Reporter.log("Running test in local Firefox",true);
-            }
-            break;
-            // add another browser as needed
 
-
+         default:
+            throw new RuntimeException("Browser not supported: " + browser);
       }
-      webDriver.manage().deleteAllCookies();
-      webDriver.manage().window().maximize();
-      driverMap.put(Thread.currentThread().getId(), webDriver);
-     browserMap.put(Thread.currentThread().getId(), browserType);
-      return webDriver;
+
+      localDriver.manage().deleteAllCookies();
+      localDriver.manage().window().maximize();
+
+      // Set the driver and browser type into ThreadLocal
+      driver.set(localDriver);
+      browserType.set(browser);
    }
 
-   /**
-    * Launches a RemoteWebDriver on Selenium Grid
-    *
-    * @param capabilities ChromeOptions or FirefoxOptions
-    * @param hubUrl       Selenium Grid Hub URL
-    * @return RemoteWebDriver instance
-    */
    private WebDriver launchGridDriver(Capabilities capabilities, String hubUrl) {
       try {
          return new RemoteWebDriver(new URL(hubUrl), capabilities);
       } catch (MalformedURLException e) {
-        Reporter.log("Invalid Grid URL: " + hubUrl);
-         e.printStackTrace();
-         throw new RuntimeException("Invalid Selenium Grid Hub URL", e);
+         throw new RuntimeException("Invalid Selenium Grid Hub URL: " + hubUrl, e);
       } catch (Exception e) {
-         Reporter.log("Error launching RemoteWebDriver on Grid", true);
-         e.printStackTrace();
-         return null;
+         throw new RuntimeException("Failed to start remote driver", e);
       }
    }
 
-   protected void tearDown(){
-      if(webDriver!=null){
-         webDriver.quit();
+   /**
+    * Close browser and clean up ThreadLocal memory
+    */
+   @AfterMethod(alwaysRun = true)
+   protected void tearDown() {
+      if (getDriverInstance() != null) {
+         getDriverInstance().quit();
       }
+      // Critical: Remove data from ThreadLocal to prevent memory leaks
+      driver.remove();
+      browserType.remove();
+      Reporter.log("Driver closed and ThreadLocal cleaned for Thread: " + Thread.currentThread().getId(), true);
    }
-
 }

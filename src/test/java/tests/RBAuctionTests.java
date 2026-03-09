@@ -21,7 +21,7 @@ public class RBAuctionTests extends TestBase {
     }
 
     @Test(dataProvider = "SearchData",priority = 1)
-    public void testSearchAutomation(String term){
+    public void testSearchDataResults(String term){
         HomePage homePage=new HomePage();
         homePage.performSearch(term);
         SearchPage searchPage=new SearchPage();
