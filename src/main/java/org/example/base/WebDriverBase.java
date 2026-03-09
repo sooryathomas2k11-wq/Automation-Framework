@@ -12,15 +12,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Parameters;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
 public abstract class WebDriverBase {
-   private static final Logger logger = LoggerFactory.getLogger(PageBase.class);
    private WebDriver webDriver;
    private BrowserTypes browserType;
 
@@ -56,7 +52,7 @@ public abstract class WebDriverBase {
    @BeforeMethod
    @Parameters({"browser","hubUrl"})
    protected WebDriver getWebDriver(BrowserTypes browser, String hubUrl) {
-      logger.info("Running tests on thread: " + Thread.currentThread().getId());
+      Reporter.log("Running tests on thread: " + Thread.currentThread().getId(),true);
       boolean isRemote = hubUrl != null && !hubUrl.isEmpty();
       switch (browser) {
          case CHROME:
@@ -64,11 +60,11 @@ public abstract class WebDriverBase {
             ChromeOptions chromeOptions = new ChromeOptions();
             if(isRemote){
                webDriver = launchGridDriver(chromeOptions, hubUrl);
-               logger.info("Running test on Selenium Grid in Chrome");
+               Reporter.log("Running test on Selenium Grid in Chrome",true);
             }else {
                WebDriverManager.chromedriver().setup();
                webDriver = new ChromeDriver(chromeOptions);
-               logger.info("Running test in browser \'CHROME\'");
+               Reporter.log("Running test in browser \'CHROME\'",true);
             }
             break;
          case FIREFOX:
@@ -76,12 +72,12 @@ public abstract class WebDriverBase {
             FirefoxOptions firefoxOptions=new FirefoxOptions();
             if(isRemote){
                webDriver = launchGridDriver(firefoxOptions, hubUrl);
-               logger.info("Running test on Selenium Grid in Firefox");
+               Reporter.log("Running test on Selenium Grid in Firefox",true);
             }else {
                WebDriverManager.firefoxdriver().setup();
                webDriver = new FirefoxDriver(firefoxOptions);
-               logger.info("Running test in browser \'FIREFOX\'");
-               logger.info("Running test in local Firefox");
+               Reporter.log("Running test in browser \'FIREFOX\'",true);
+               Reporter.log("Running test in local Firefox",true);
             }
             break;
             // add another browser as needed
@@ -106,11 +102,11 @@ public abstract class WebDriverBase {
       try {
          return new RemoteWebDriver(new URL(hubUrl), capabilities);
       } catch (MalformedURLException e) {
-        logger.info("Invalid Grid URL: " + hubUrl);
+        Reporter.log("Invalid Grid URL: " + hubUrl);
          e.printStackTrace();
          throw new RuntimeException("Invalid Selenium Grid Hub URL", e);
       } catch (Exception e) {
-         logger.info("Error launching RemoteWebDriver on Grid");
+         Reporter.log("Error launching RemoteWebDriver on Grid", true);
          e.printStackTrace();
          return null;
       }

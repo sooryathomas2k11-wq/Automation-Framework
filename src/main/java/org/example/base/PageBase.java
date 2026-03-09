@@ -2,6 +2,7 @@ package org.example.base;
 
 import org.example.common.Constants;
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -15,48 +16,26 @@ public abstract class PageBase extends WebDriverBase {
     public PageBase() {
         driver = getDriverInstance();
         wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.EXPLICIT_WAIT));
+        // 1. Initialize PageFactory elements for child classes
+        PageFactory.initElements(driver, this);
+
+        // 2. Initial synchronization
+        waitForPageLoad();
+    }
+    /**
+     * Wait for document to be ready (Universal for React/Standard sites)
+     */
+    protected void waitForPageLoad() {
+        wait.until(d -> ((JavascriptExecutor) d)
+                .executeScript("return document.readyState").equals("complete"));
     }
 
-    /**
-     * Click element after it becomes clickable
-     */
-    protected void click(By locator) {
-        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
-    }
 
-    /**
-     * Type text into input field
-     */
-    protected void type(By locator, String text) {
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-        element.clear();
-        element.sendKeys(text);
-    }
 
-    /**
-     * Get text from element
-     */
-    protected String getText(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
-    }
-
-    /**
-     * Check if element is visible
-     */
-    protected boolean isElementVisible(By locator) {
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Wait for element
-     */
-    protected WebElement waitForElement(By locator) {
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    // Use JavaScript click when standard click is intercepted (like by a cookie banner)
+    protected void jsClick(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
     public boolean waitForElementToLoad(WebElement element) {
         try {

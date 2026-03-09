@@ -1,18 +1,14 @@
 package org.example.pages;
-
 import org.example.base.PageBase;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+
 
 
 public class HomePage extends PageBase {
-    private WebDriver driver;
-
-   public HomePage(WebDriver driver){
-       this.driver=driver;
-       PageFactory.initElements(driver,this);
+   public HomePage(){
+       super();
    }
 
     @FindBy(css = "div[data-testid='search input'] input")
@@ -33,7 +29,7 @@ public class HomePage extends PageBase {
      getSearchBox().clear();
       getSearchBox().sendKeys(term);
       getSearchButton().click();
-      return new SearchPage(getDriverInstance());
+      return new SearchPage();
    }
 
 }
