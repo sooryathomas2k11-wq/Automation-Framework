@@ -1,9 +1,7 @@
 package org.example.base;
 
 import org.example.common.Constants;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -59,5 +57,14 @@ public abstract class PageBase extends WebDriverBase {
      */
     protected WebElement waitForElement(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+    public boolean waitForElementToLoad(WebElement element) {
+        try {
+            WebDriverWait wait = new WebDriverWait(getDriverInstance(),Duration.ofSeconds(Constants.PAGE_LOAD_TIME));
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 }

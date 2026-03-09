@@ -1,23 +1,39 @@
 package org.example.pages;
-import org.openqa.selenium.By;
+
+import org.example.base.PageBase;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-public class HomePage {
+
+public class HomePage extends PageBase {
     private WebDriver driver;
-
-    private By searchBox= By.cssSelector("div[data-testid='search input'] input");
-    private By searchButton=By.cssSelector("div[data-testid='search button'] img");
 
    public HomePage(WebDriver driver){
        this.driver=driver;
+       PageFactory.initElements(driver,this);
    }
 
-   public void enterSearchTerm(String term){
-       driver.findElement(searchBox).clear();
-       driver.findElement(searchBox).sendKeys(term);
-   }
+    @FindBy(css = "div[data-testid='search input'] input")
+    private WebElement searchBox;
 
-    public void clickSearchButton(){
-        driver.findElement(searchButton).click();
+    @FindBy(css = "img[alt='Search']")
+    private WebElement searchButton;
+    public WebElement getSearchBox() {
+        return searchBox;
     }
+
+    public WebElement getSearchButton() {
+        return searchButton;
+    }
+
+
+   public SearchPage performSearch(String term){
+     getSearchBox().clear();
+      getSearchBox().sendKeys(term);
+      getSearchButton().click();
+      return new SearchPage(getDriverInstance());
+   }
+
 }

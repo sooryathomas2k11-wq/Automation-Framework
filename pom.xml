@@ -19,14 +19,14 @@
     <dependency>
         <groupId>io.github.bonigarcia</groupId>
         <artifactId>webdrivermanager</artifactId>
-        <version>6.1.0</version> <!-- Latest stable version as of now -->
+        <version>5.8.0</version> <!-- Latest stable version as of now -->
     </dependency>
 
     <!-- Selenium Dependency -->
     <dependency>
         <groupId>org.seleniumhq.selenium</groupId>
         <artifactId>selenium-java</artifactId>
-        <version>4.40.0</version> <!-- Latest stable version as of now -->
+        <version>4.21.0</version> <!-- Latest stable version as of now -->
     </dependency>
 
     <!-- TestNG Dependency -->
