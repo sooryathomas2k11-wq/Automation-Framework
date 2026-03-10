@@ -84,8 +84,7 @@
                     <systemPropertyVariables>
                         <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
                         <org.uncommons.reportng.title>RB Automation</org.uncommons.reportng.title>
-                        <!--suppress UnresolvedMavenProperty -->
-                        <baseUrl>${baseUrl}</baseUrl>
+                        <browser>CHROME</browser>
                         <threadCount>1</threadCount>
                         <dataProviderThreadCount>1</dataProviderThreadCount>
                         <parallel>methods</parallel>

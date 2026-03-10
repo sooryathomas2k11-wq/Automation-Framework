@@ -1,4 +1,4 @@
-package org.example.csv;
+package org.example.utils;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

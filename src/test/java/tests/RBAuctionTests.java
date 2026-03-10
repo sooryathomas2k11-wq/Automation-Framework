@@ -2,7 +2,7 @@ package tests;
 
 
 import org.example.base.TestBase;
-import org.example.csv.CSVUtils;
+import org.example.utils.CSVUtils;
 import org.example.pages.HomePage;
 import org.example.pages.SearchPage;
 import org.testng.Assert;
@@ -41,7 +41,6 @@ public class RBAuctionTests extends TestBase {
     SearchPage searchPage=new SearchPage();
     SearchPageVerification searchPageVerification=new SearchPageVerification(searchPage);
     int resultsBeforeFilter = searchPageVerification.getTotalResults(filterTerm);
-    Reporter.log("Results before filter: " + resultsBeforeFilter,true);
     searchPageVerification.applyYearFilter(resultsBeforeFilter,beforeYear);
     int resultsAfterFilter = searchPageVerification.getTotalResults(filterTerm);
 
