@@ -3,12 +3,9 @@ import org.example.base.PageBase;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.List;
 
 public class SearchPage extends PageBase {
-    private static final Logger logger = LoggerFactory.getLogger(PageBase.class);
 
 public SearchPage(){
     super();

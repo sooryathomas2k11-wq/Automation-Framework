@@ -3,8 +3,6 @@ package org.example.utils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileReader;
 import java.io.Reader;
@@ -14,7 +12,6 @@ import java.util.List;
 
 public class CSVUtils {
 
-    private static final Logger logger = LoggerFactory.getLogger(CSVUtils.class);
 
     public static Iterator<Object[]> readCSV(String filePath) {
         List<Object[]> data = new ArrayList<>();
@@ -29,7 +26,6 @@ public class CSVUtils {
             }
 
         } catch (Exception e) {
-            logger.error("Failed to read CSV file: {}", filePath, e);
             throw new RuntimeException(e); // fail fast
         }
         return data.iterator();
