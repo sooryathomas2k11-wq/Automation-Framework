@@ -23,7 +23,7 @@ public abstract class TestBase extends WebDriverBase {
         // 3. Optional: Allow a total override via -DbaseUrl
         String finalUrl = System.getProperty("baseUrl", targetUrl);
 
-        System.out.println("🌐 Running in " + currentEnv + " mode: " + finalUrl);
+        System.out.println("Running in " + currentEnv + " mode: " + finalUrl);
 
         if (getDriverInstance() != null) {
             getDriverInstance().get(finalUrl);
