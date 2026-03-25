@@ -21,15 +21,16 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Create Video Directory
+        run: mkdir -p ./videos
+
       - name: Start Selenium Grid
         run: |
-          # Note: On GitHub (Intel), you might need to swap seleniarm for selenium/standalone-chrome 
-          # if the arm images fail to start.
-          docker-compose up -d
+          # Use 'docker compose' (space) instead of 'docker-compose' (hyphen)
+          docker compose up -d
 
       - name: Wait for Grid Readiness
         run: |
-          # Wait for the hub to be up before starting tests
           until $(curl -s -f -o /dev/null http://localhost:4444/wd/hub/status); do
             echo "Waiting for Selenium Grid..."
             sleep 5
@@ -41,7 +42,7 @@ jobs:
         continue-on-error: true
 
       - name: Stop Selenium Grid
-        run: docker-compose down
+        run: docker compose down
 
       - name: Upload Test Results
         if: always()
