@@ -1,4 +1,5 @@
 package org.example.base;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.example.utils.ConfigReader;
 import org.example.common.EnvironmentTypes;
@@ -31,4 +32,7 @@ public abstract class TestBase extends WebDriverBase {
             throw new RuntimeException("WebDriver was not initialized for this thread!");
         }
     }
+
+
+
 }

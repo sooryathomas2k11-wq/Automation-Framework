@@ -12,7 +12,10 @@
         <maven.compiler.source>19</maven.compiler.source>
         <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
+
+        <suiteXmlFile>testng.xml</suiteXmlFile>
+        <browser>CHROME</browser>
+        <hubUrl></hubUrl> </properties>
 
     <dependencies>
     <!-- WebDriverManager -->
@@ -57,14 +60,13 @@
 
     <build>
         <plugins>
-            <!-- Maven Surefire Plugin to run TestNG tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
                     <properties>
                         <property>
@@ -79,14 +81,13 @@
                     <systemPropertyVariables>
                         <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
                         <org.uncommons.reportng.title>RB Automation</org.uncommons.reportng.title>
-                        <browser>CHROME</browser>
-                        <threadCount>1</threadCount>
-                        <dataProviderThreadCount>1</dataProviderThreadCount>
+                        <browser>${browser}</browser>
+                        <hubUrl>${hubUrl}</hubUrl>
                         <parallel>methods</parallel>
+                        <threadCount>2</threadCount>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

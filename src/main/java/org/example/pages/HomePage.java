@@ -10,11 +10,19 @@ public class HomePage extends PageBase {
        super();
    }
 
+
+
+    @FindBy(css = "svg[data-testid='CloseIcon']")
+    private WebElement closeIcon;
     @FindBy(css = "div[data-testid='search input'] input")
     private WebElement searchBox;
 
     @FindBy(css = "img[alt='Search']")
     private WebElement searchButton;
+
+    public WebElement getCloseIcon() {
+        return closeIcon;
+    }
     public WebElement getSearchBox() {
         return searchBox;
     }
@@ -25,6 +33,7 @@ public class HomePage extends PageBase {
 
 
    public SearchPage performSearch(String term){
+      getCloseIcon().click();
      getSearchBox().clear();
       getSearchBox().sendKeys(term);
       getSearchButton().click();
