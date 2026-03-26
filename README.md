@@ -1,41 +1,34 @@
-# RB Automation Framework
+# 🚀 RB Automation Framework
 
-A simple, Java-based **Selenium Test Automation Framework** using **TestNG** and **Maven**, built with the **Page Object Model (POM)** pattern.  
-It supports running automated UI tests, managing test data, reporting, and browser execution.
+![CI Automation](https://github.com/sooryathomas2k11-wq/Automation-Framework/actions/workflows/maven.yml/badge.svg)
 
----
-
-## 📌 Features
-
-✅ Page Object Model (POM) for structured automation  
-✅ Maven project with TestNG for test execution  
-✅ Configurable browser and environment settings  
-✅ TestNG HTML reports  
-✅ Parallel test execution support  
-✅ Organized folder structure (src/main, src/test)
+A modern, scalable **Selenium Test Automation Framework** built with Java, TestNG, and Maven. This framework is designed for high-performance execution using a **Dockerized Selenium Grid** and is fully integrated with **GitHub Actions CI/CD**.
 
 ---
 
-## 🔧 Prerequisites
+## 🌟 Key Features
 
-Make sure you have:
+* **Infrastructure as Code:** Uses **Docker Compose** to spin up a Selenium Grid (Hub & Chrome Nodes) automatically.
+* **CI/CD Integrated:** Automated test execution on every push via **GitHub Actions**.
+* **Video Recording:** Captures `.mp4` recordings of every test execution for easy debugging.
+* **Live Monitoring:** View real-time browser execution via a built-in [noVNC dashboard](http://localhost:7900).
+* **Parallel Execution:** Thread-safe implementation using `ThreadLocal` for high-speed concurrent testing.
+* **Page Object Model (POM):** Clean separation of test logic and UI locators.
 
-✔ Java JDK installed (Java 19)  
-✔ Maven installed  
-✔ An IDE ( IntelliJ)
 ---
 
-### Setup & Run
+## 🛠️ Prerequisites
 
-1. **Unzip the project**
+To run this project locally, you need:
+* **Java JDK 17** (LTS)
+* **Maven**
+* **Docker Desktop** (Ensures the Selenium Grid runs in containers)
 
-2. **Import in IDE**
-    - Open IDE → Import → **Existing Maven Project** → Select the unzipped folder
+---
 
+## 🚀 Getting Started
 
-3. **Run Tests**
-    - Using the **`testng.xml`** suite file in the project, or
-     - Using Maven command:
-
+### 1. Clone & Setup
 ```bash
-mvn clean test 
+git clone [https://github.com/sooryathomas2k11-wq/Automation-Framework.git](https://github.com/sooryathomas2k11-wq/Automation-Framework.git)
+cd Automation-Framework

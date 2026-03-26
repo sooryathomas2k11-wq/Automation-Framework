@@ -44,18 +44,17 @@
             <artifactId>commons-csv</artifactId>
             <version>1.11.0</version>
         </dependency>
-        <dependency>
-            <groupId>org.uncommons</groupId>
-            <artifactId>reportng</artifactId>
-            <version>1.1.4</version>
-            <scope>test</scope>
-        </dependency>
+
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
             <version>5.1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -68,19 +67,7 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
                     </suiteXmlFiles>
-                    <properties>
-                        <property>
-                            <name>usedefaultlisteners</name>
-                            <value>false</value>
-                        </property>
-                        <property>
-                            <name>listener</name>
-                            <value>org.uncommons.reportng.HTMLReporter, org.uncommons.reportng.JUnitXMLReporter</value>
-                        </property>
-                    </properties>
                     <systemPropertyVariables>
-                        <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output>
-                        <org.uncommons.reportng.title>RB Automation</org.uncommons.reportng.title>
                         <browser>${browser}</browser>
                         <hubUrl>${hubUrl}</hubUrl>
                         <parallel>methods</parallel>

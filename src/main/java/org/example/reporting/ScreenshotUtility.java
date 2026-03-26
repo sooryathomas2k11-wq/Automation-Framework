@@ -4,39 +4,35 @@ import org.apache.commons.io.FileUtils;
 import org.example.base.TestBase;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-final public class ScreenshotUtility extends TestBase {
+public class ScreenshotUtility extends TestBase {
 
-    private static final String SCREENSHOT_EXTENSION = ".png";
-    private static final String SCREENSHOT_PATH = "target/surefire-reports/html/screenshots/";
-    private static final String SCREENSHOT_SRC = "screenshots/";
-    private static final String TEST_CASE_STATUS = "TestCaseStatus";
+    // Simplified path for Extent Reports
+    private static final String SCREENSHOT_FOLDER = System.getProperty("user.dir") + "/target/screenshots/";
 
-    public static void embedExceptionDetailsInReport(Throwable throwable) {
-        final ITestResult testResult = Reporter.getCurrentTestResult();
-        testResult.setAttribute(TEST_CASE_STATUS, ITestResult.FAILURE);
+    /**
+     * Captures a screenshot and returns the absolute path.
+     * This path is then used by the ExtentListener to attach the image.
+     */
+    public static String getScreenshot(String screenshotName) {
+        String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        TakesScreenshot ts = (TakesScreenshot) getDriverInstance();
+        File source = ts.getScreenshotAs(OutputType.FILE);
 
-        ScreenshotUtility screenshotUtility = new ScreenshotUtility();
-        screenshotUtility.takeScreenshot(testResult);
-    }
+        // Define destination
+        String destination = SCREENSHOT_FOLDER + screenshotName + dateName + ".png";
+        File finalDestination = new File(destination);
 
-    public void takeScreenshot(final ITestResult result) {
         try {
-            File screenshot = ((TakesScreenshot) getDriverInstance()).getScreenshotAs(OutputType.FILE);
-            final String screenshotName = System.nanoTime() + SCREENSHOT_EXTENSION;
-            String screenPath = SCREENSHOT_PATH;
-            String imgSrc = SCREENSHOT_SRC;
-
-            File newScreenshot = new File(screenPath + screenshotName);
-            FileUtils.copyFile(screenshot, newScreenshot);
-            Reporter.log("Screenshot: <br><a href=" + imgSrc + screenshotName + " target='_blank' >Screenshot:" + screenshotName + "</a><br>");
-        } catch (Exception e) {
-            Reporter.log(e.getMessage());
+            FileUtils.copyFile(source, finalDestination);
+        } catch (IOException e) {
+            System.out.println("Failed to capture screenshot: " + e.getMessage());
         }
-    }
 
+        return destination;
+    }
 }
