@@ -14,10 +14,10 @@ public class HomePage extends PageBase {
 
     @FindBy(css = "svg[data-testid='CloseIcon']")
     private WebElement closeIcon;
-    @FindBy(css = "div[data-testid='search input'] input")
+    @FindBy(css = "input[data-testid='search input']")
     private WebElement searchBox;
 
-    @FindBy(css = "img[alt='Search']")
+    @FindBy(css = "svg[data-testid='SearchIcon']")
     private WebElement searchButton;
 
     public WebElement getCloseIcon() {
@@ -33,7 +33,7 @@ public class HomePage extends PageBase {
 
 
    public SearchPage performSearch(String term){
-      getCloseIcon().click();
+//      getCloseIcon().click();
      getSearchBox().clear();
       getSearchBox().sendKeys(term);
       getSearchButton().click();

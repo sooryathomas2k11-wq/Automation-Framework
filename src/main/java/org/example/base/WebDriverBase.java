@@ -101,11 +101,16 @@ public abstract class WebDriverBase {
    @AfterMethod(alwaysRun = true)
    protected void tearDown() {
       if (getDriverInstance() != null) {
-         getDriverInstance().quit();
+         try {
+            getDriverInstance().quit(); // This kills the session on the Grid
+            Reporter.log("SUCCESS: Driver quit successfully.", true);
+         } catch (Exception e) {
+            Reporter.log("ERROR: Could not quit driver: " + e.getMessage(), true);
+         } finally {
+            // ALWAYS remove from ThreadLocal to prevent memory leaks
+            driver.remove();
+            browserType.remove();
+         }
       }
-      // Critical: Remove data from ThreadLocal to prevent memory leaks in parallel runs
-      driver.remove();
-      browserType.remove();
-      Reporter.log("Driver closed and ThreadLocal cleaned for Thread: " + Thread.currentThread().getId(), true);
    }
 }

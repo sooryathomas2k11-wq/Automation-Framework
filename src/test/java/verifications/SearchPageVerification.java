@@ -10,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import java.time.Duration;
 import java.time.Year;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SearchPageVerification extends VerificationBase {
 
@@ -21,16 +23,22 @@ public class SearchPageVerification extends VerificationBase {
 
     public int getTotalResults(String term) {
         waitForElementToLoad(searchPage.getResultsHeader());
+
         String headerText = searchPage.getResultsHeader().getText();
-        System.out.println("Header text:" + headerText);
+        System.out.println("Header text: " + headerText);
 
-        String parts = headerText.split("of")[1].trim();
-        String count = parts.split(" ")[0].replace(",", "");
-        int totalResults = Integer.parseInt(count);
+        Pattern pattern = Pattern.compile("(\\d[\\d,]*)");
+        Matcher matcher = pattern.matcher(headerText);
 
-        logReport("Total results for " + term + ": " + totalResults);
-        Assert.assertTrue(totalResults > 0, "Expected at least one result!");
-        return totalResults;
+        if (matcher.find()) {
+            int totalResults = Integer.parseInt(matcher.group(1).replace(",", ""));
+
+            logReport("Total results for " + term + ": " + totalResults);
+            Assert.assertTrue(totalResults > 0, "Expected at least one result!");
+            return totalResults;
+        }
+
+        throw new RuntimeException("Could not extract result count from: " + headerText);
     }
 
     public String getFirstResultTitle() {

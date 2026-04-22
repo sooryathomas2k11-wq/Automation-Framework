@@ -10,7 +10,7 @@ public class SearchPage extends PageBase {
 public SearchPage(){
     super();
 }
-    @FindBy(css = "h2[data-testid='non-cat-header']")
+    @FindBy(css = "p[data-testid='search-count-header']")
     private WebElement resultsHeader;
     @FindBy(css="a[data-testid='item-card-title-link']")
     private List<WebElement> itemCartTitles;
