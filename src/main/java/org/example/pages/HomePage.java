@@ -10,11 +10,9 @@ public class HomePage extends PageBase {
        super();
    }
 
-
-
     @FindBy(css = "svg[data-testid='CloseIcon']")
     private WebElement closeIcon;
-    @FindBy(css = "input[data-testid='search input']")
+    @FindBy(css = "input[data-testid*='search']")
     private WebElement searchBox;
 
     @FindBy(css = "svg[data-testid='SearchIcon']")
